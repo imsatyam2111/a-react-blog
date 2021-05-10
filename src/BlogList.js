@@ -1,4 +1,4 @@
-const BlogList = ( { blogs, title, handleDelete } ) => {
+const BlogList = ( { blogs, title } ) => {
     // Alternative to passing props in the parenthesis and destructuring it later
     // We can Destructure props object within the parenthesis like
     // const blogs = props.blogs is similar to ( { blogs } )
@@ -13,7 +13,6 @@ const BlogList = ( { blogs, title, handleDelete } ) => {
                 <div className="blog-preview" key={blog.id}>
                     <h2>{ blog.title }</h2>
                     <p>Written By: { blog.author }</p>
-                    <button onClick={ () => handleDelete(blog.id) }>Delete</button>
                 </div>
             ))}
         </div>

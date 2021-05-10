@@ -1,28 +1,18 @@
-import { useState, useEffect } from 'react';
 import BlogList from './BlogList';
+import useFetch from './useFetch';
 
 const Home = () => {
-    const [blogs, setBlogs] = useState([
-        { title: 'First React app', body: 'loreum ipsum ...', author: 'Satyam', id: 0 },
-        { title: 'Welcome guide to React', body: 'loreum ipsum ...', author: 'Saurabh', id: 1 },
-        { title: 'Features of React', body: 'loreum ipsum ...', author: 'Satyam', id: 2 },
-        { title: 'Implementation of React', body: 'loreum ipsum ...', author: 'Saurabh', id: 3 }
-    ])
-
-    const handleDelete = (id) => {
-        const newBlogs = blogs.filter(blog => blog.id !== id);
-        setBlogs(newBlogs)
-    }    
-
-    useEffect(() => {
-        console.log('use Effec ran');
-        console.log(blogs);
-    }, []);
-
+    const { data: blogs, isPending, error } = useFetch('http://localhost:8000/blogs')
     return (
         <div className="home">
-            <BlogList blogs={ blogs } title="All Blogs!" handleDelete={ handleDelete } />
-            <BlogList blogs={ blogs.filter((blog) => blog.author === 'Satyam' ) } title="Satyam's Blogs" /> 
+            { error && <div> { error } </div>}
+            { isPending && <div>Loading...</div>}
+            {/* And operator is used because react will evaluate it and as blogs is null it will 
+                leave the next LOC and this how we can avoid the error and as soon the
+                api is fetched and blogs got its value the data will get rendered.
+            */}
+            {blogs && <BlogList blogs={ blogs } title="All Blogs!" />}
+            {blogs &&<BlogList blogs={ blogs.filter((blog) => blog.author === 'Satyam' ) } title="Satyam's Blogs" />} 
         </div>
     );
 }
